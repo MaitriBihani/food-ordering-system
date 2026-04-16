@@ -1,0 +1,19 @@
+# Maven build folder
+target/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Maven wrapper logs
+.mvn/wrapper/maven-wrapper.jar
+
+# Env (future use)
+.env
