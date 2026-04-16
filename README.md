@@ -41,7 +41,7 @@ The system is built using **Spring Boot (backend)** and **HTML, CSS, JavaScript 
 
 ### 🔹 Database
 
-* (Likely) H2 / MySQL (based on configuration)
+* MySQL 
 
 ---
 
