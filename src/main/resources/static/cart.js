@@ -2,7 +2,19 @@ let userId = null;
 let cart = {};
 let currentRestaurantId = null;
 let allRestaurants = [];
-
+// -------- IMAGE MAPPING --------
+const restaurantImages = {
+    "Dominos": "/images/dominos.jpg",
+    "KFC": "/images/kfc.jpg",
+    "Punjabi Tadka": "/images/punjabi_tadka.jpg",
+    "Bikanervala": "/images/bikanervala.jpg",
+    "Saravana Bhavan": "/images/saravana_bhavan.jpg",
+    "Udupi Restaurant": "/images/udupi_restaurant.jpg",
+    "Sweet Truth": "/images/sweet_truth.jpg",
+    "Baskin Robbins": "/images/baskin_robbins.jpg",
+    "Salad Days": "/images/salad_days.jpg",
+    "EatFit": "/images/eatfit.jpg"
+};
 window.onload = function () {
 
     const user = localStorage.getItem("user");
@@ -20,13 +32,29 @@ window.onload = function () {
     }
 };
 //-------- SET USER UI --------
+// function setUserUI() {
+//     const user = JSON.parse(localStorage.getItem("user"));
+
+//     if (user) {
+//         document.querySelector(".username").innerText = user.username;
+//         document.querySelector(".user-circle").innerText =
+//             user.username.charAt(0).toUpperCase();
+//     }
+// }
 function setUserUI() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-        document.querySelector(".username").innerText = user.username;
-        document.querySelector(".user-circle").innerText =
-            user.username.charAt(0).toUpperCase();
+        const usernameEl = document.querySelector(".username");
+        const circleEl = document.querySelector(".user-circle");
+
+        if (usernameEl) {
+            usernameEl.innerText = user.username;
+        }
+
+        if (circleEl) {
+            circleEl.innerText = user.username.charAt(0).toUpperCase();
+        }
     }
 }
 
@@ -137,23 +165,6 @@ function goToHelp(){
     window.location.href = "help.html";
 }
 // -------- LOAD RESTAURANTS --------
-// function loadRestaurants() {
-//     fetch("/restaurants")
-//     .then(res => res.json())
-//     .then(data => {
-//         let div = document.getElementById("restaurants");
-//         div.innerHTML = "";
-
-//         data.forEach(r => {
-//             div.innerHTML += `
-//                 <div class="card" onclick="loadFood(${r.id})">
-//                     <h3>${r.name}</h3>
-//                     <p>${r.category}</p>
-//                 </div>
-//             `;
-//         });
-//     });
-// }
 
 function loadRestaurants() {
     fetch("/restaurants")
@@ -173,10 +184,44 @@ function displayRestaurants(data) {
     data.forEach(r => {
         div.innerHTML += `
             <div class="card" onclick="loadFood(${r.id})">
+
+                <img src="${restaurantImages[r.name] || '/images/default1.jpg'}" 
+     class="restaurant-img"
+     onerror="this.onerror=null; this.src='/images/default1.jpg';">
+
                 <h3>${r.name}</h3>
+
                 <p>${r.category}</p>
+
+                <p class="rating">⭐ ${r.rating}</p>
+
             </div>
         `;
+    });
+}
+
+
+
+// -------- LOAD FOOD --------
+function loadFood(id) {
+    fetch("/food/" + id)
+    .then(res => res.json())
+    .then(data => {
+        let div = document.getElementById("food");
+        div.innerHTML = "";
+
+        data.forEach(f => {
+            div.innerHTML += `
+                <div class="card">
+                    <h3>${f.name}</h3>
+                    <p>₹${f.price}</p>
+
+                    <button onclick="addToCart(${f.id}, '${f.name}', ${f.price}, ${id})">
+                        Add
+                    </button>
+                </div>
+            `;
+        });
     });
 }
 // -------- FILTER CATEGORY --------
@@ -214,25 +259,6 @@ function searchRestaurants() {
     displayRestaurants(filtered);
 }
 
-// -------- LOAD FOOD --------
-function loadFood(id) {
-    fetch("/food/" + id)
-    .then(res => res.json())
-    .then(data => {
-        let div = document.getElementById("food");
-        div.innerHTML = "";
-
-        data.forEach(f => {
-            div.innerHTML += `
-                <div class="card">
-                    <h3>${f.name}</h3>
-                    <p>&#8377;${f.price}</p>
-                    <button onclick="addToCart(${f.id}, '${f.name}', ${f.price}, ${id})">Add</button>
-                </div>
-            `;
-        });
-    });
-}
 
 // -------- CART --------
 function addToCart(foodId, name, price, restaurantId) {
