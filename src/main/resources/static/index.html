@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food App</title>
+
+    <!-- ✅ CSS LINK -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="auth-box">
+    <h1>Login</h1>
+    <input id="loginEmail" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <p>Don't have account? <a href="#" onclick="showSignup()">Signup</a></p>
+</div>
+
+
+<!-- SIGNUP PAGE -->
+<div id="signupPage" class="auth-box hidden">
+    <h1>Signup</h1>
+   <label>What should we call you?</label>
+<input id="signupName" placeholder="name">
+
+<label>Email address</label>
+<input id="signupEmail" placeholder="email">
+
+<label>Password</label>
+<input id="signupPassword" type="password" placeholder="password">
+
+<small>Password must be at least 4 characters</small>
+    <button onclick="signup()">Signup</button>
+
+    <p>Already have account? <a href="#" onclick="showLogin()">Login</a></p>
+</div>
+
+<!-- MAIN APP -->
+<div id="appPage" class="hidden">
+
+    <div class="navbar">
+    <h1>Food Ordering System</h1>
+
+    <div class="nav-right">
+        <button onclick="logout()">Logout</button>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    </div>
+</div>
+
+<div id="menu" class="hidden menu-box">
+    <p onclick="goToHistory()">Order History</p>
+    <p onclick="goToProfile()">Profile</p>
+    <p onclick="goToHelp()">Help</p>
+</div>
+    <div class="container">
+
+        <h2>Restaurants</h2>
+        <div id="restaurants"></div>
+
+        <h2>Food Items</h2>
+        <div id="food"></div>
+
+        <h2>Cart</h2>
+        <ul id="cart"></ul>
+
+        <button onclick="placeOrder()">Place Order</button>
+
+    </div>
+
+</div>
+
+<!--  JS LINK  -->
+<script src="cart.js"></script>
+
+</body>
+</html>

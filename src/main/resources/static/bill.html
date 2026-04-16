@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bill</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="bill-container">
+
+    <h1>Order Bill</h1>
+
+    <h3>Order ID: <span id="orderId"></span></h3>
+    <p>Date: <span id="orderDate"></span></p>
+    <p>Status: <span id="orderStatus"></span></p>
+
+    <!-- <h2>Items</h2>
+    <ul id="billItems"></ul> -->
+    
+<h2>Items</h2>
+
+<table border="1" width="100%" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody id="billItems"></tbody>
+</table>
+
+
+<p>Subtotal: <span id="totalAmount"></span></p>
+<p>GST (5%): <span id="gst"></span></p>
+<p>Delivery Fee: <span id="delivery"></span></p>
+
+<h2>Final Total: <span id="finalTotal"></span></h2>
+
+<!-- <h2>Total: <span id="totalAmount"></span></h2> -->
+    <!-- <h2>Total: <span id="totalAmount"></span></h2> -->
+
+   <button onclick="window.print()">Download / Print Bill</button>
+    <button onclick="goHome()">Back to Home</button>
+
+</div>
+
+<script src="bill.js"></script>
+
+</body>
+</html>
