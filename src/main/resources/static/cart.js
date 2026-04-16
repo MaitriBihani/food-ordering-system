@@ -1,54 +1,7 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let userId = null;
 let cart = {};
 let currentRestaurantId = null;
-
-// -------- LOGIN --------
-// function login() {
-//     fetch("/auth/login", {
-//         method: "POST",
-//         headers: {"Content-Type": "application/json"},
-//         body: JSON.stringify({
-//             email: document.getElementById("loginEmail").value,
-//             password: document.getElementById("loginPassword").value
-//         })
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         if(data){
-//             userId = data.id;
-//             document.getElementById("loginPage").classList.add("hidden");
-//             document.getElementById("appPage").classList.remove("hidden");
-//             loadRestaurants();
-//         } else {
-//             alert("Invalid login");
-//         }
-//     });
-// }
-
+let allRestaurants = [];
 
 window.onload = function () {
 
@@ -63,7 +16,7 @@ window.onload = function () {
         document.getElementById("appPage").classList.remove("hidden");
 
         loadRestaurants();
-        setUserUI();  // 🔥 IMPORTANT
+        setUserUI();  
     }
 };
 //-------- SET USER UI --------
@@ -103,7 +56,7 @@ function login() {
     document.getElementById("appPage").classList.remove("hidden");
 
     loadRestaurants();
-    setUserUI();  // 🔥 ADD THIS
+    setUserUI();  
 })
     .catch(err => {
         alert(err.message);
@@ -117,7 +70,7 @@ function signup() {
     let password = document.getElementById("signupPassword").value;
     let username = document.getElementById("signupName").value;
 
-    // ✅ Email validation
+    //  Email validation
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
@@ -125,13 +78,13 @@ function signup() {
         return;
     }
 
-    // ✅ Password validation
+    //  Password validation
     if (password.length < 4) {
         alert("Password must be at least 4 characters");
         return;
     }
 
-    // ✅ Username validation
+    //  Username validation
     if (username.includes(" ")) {
         alert("Username should not contain spaces");
         return;
@@ -184,22 +137,81 @@ function goToHelp(){
     window.location.href = "help.html";
 }
 // -------- LOAD RESTAURANTS --------
+// function loadRestaurants() {
+//     fetch("/restaurants")
+//     .then(res => res.json())
+//     .then(data => {
+//         let div = document.getElementById("restaurants");
+//         div.innerHTML = "";
+
+//         data.forEach(r => {
+//             div.innerHTML += `
+//                 <div class="card" onclick="loadFood(${r.id})">
+//                     <h3>${r.name}</h3>
+//                     <p>${r.category}</p>
+//                 </div>
+//             `;
+//         });
+//     });
+// }
+
 function loadRestaurants() {
     fetch("/restaurants")
     .then(res => res.json())
     .then(data => {
-        let div = document.getElementById("restaurants");
-        div.innerHTML = "";
 
-        data.forEach(r => {
-            div.innerHTML += `
-                <div class="card" onclick="loadFood(${r.id})">
-                    <h3>${r.name}</h3>
-                    <p>${r.category}</p>
-                </div>
-            `;
-        });
+        allRestaurants = data; //  store original data
+
+        displayRestaurants(data); //  show all initially
     });
+}
+
+function displayRestaurants(data) {
+    let div = document.getElementById("restaurants");
+    div.innerHTML = "";
+
+    data.forEach(r => {
+        div.innerHTML += `
+            <div class="card" onclick="loadFood(${r.id})">
+                <h3>${r.name}</h3>
+                <p>${r.category}</p>
+            </div>
+        `;
+    });
+}
+// -------- FILTER CATEGORY --------
+
+function filterCategory(category) {
+
+    // highlight active button
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    event.target.classList.add("active");
+
+    // filtering logic
+    if (category === "") {
+        displayRestaurants(allRestaurants);
+        return;
+    }
+
+    let filtered = allRestaurants.filter(r =>
+        r.category === category
+    );
+
+    displayRestaurants(filtered);
+}
+
+// -------- SEARCH RESTAURANTS --------
+function searchRestaurants() {
+    let keyword = document.querySelector(".search-box").value.toLowerCase();
+
+    let filtered = allRestaurants.filter(r =>
+        r.name.toLowerCase().includes(keyword)
+    );
+
+    displayRestaurants(filtered);
 }
 
 // -------- LOAD FOOD --------
@@ -225,7 +237,7 @@ function loadFood(id) {
 // -------- CART --------
 function addToCart(foodId, name, price, restaurantId) {
 
-    // 🚫 Restrict multiple restaurants
+    //  Restrict multiple restaurants
     if (currentRestaurantId && currentRestaurantId !== restaurantId) {
         alert("You can only order from one restaurant at a time!");
         return;
@@ -310,24 +322,11 @@ function placeOrder() {
         return;
     }
 
-    fetch("/order", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            userId: userId,
-            items: Object.values(cart)
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
+    //  Store cart temporarily
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-        // ✅ Save order
-        localStorage.setItem("order", JSON.stringify(data));
-
-        // ✅ Redirect to bill page
-        window.location.href = "bill.html";
-
-    });
+    //  Redirect to bill page (NO API CALL HERE)
+    window.location.href = "bill.html";
 }
 
 // -------- LOGOUT --------

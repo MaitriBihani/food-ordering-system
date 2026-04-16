@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Food App</title>
 
-    <!-- ✅ CSS LINK -->
+    <!-- CSS LINK -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="login.css">
 
@@ -44,7 +45,18 @@
 <div id="appPage" class="hidden">
 
     <div class="navbar">
-    <h1>Food Ordering System</h1>
+         <!-- <span style="font-size: 30px;">🍔</span> -->
+    <h1>🍔FoodRush</h1>
+
+
+<div class="nav-center">
+    <input type="text" 
+       placeholder="🔍Search restaurants..." 
+       class="search-box" 
+       onkeyup="searchRestaurants()">
+</div>
+
+
 
     <div class="nav-right">
         <button onclick="logout()">Logout</button>
@@ -57,6 +69,23 @@
     <p onclick="goToProfile()">Profile</p>
     <p onclick="goToHelp()">Help</p>
 </div>
+
+<div class="filter-container">
+
+    <button class="filter-btn active" onclick="filterCategory('')">🍽 All</button>
+
+    <button class="filter-btn" onclick="filterCategory('North Indian')">🍜 North Indian</button>
+
+    <button class="filter-btn" onclick="filterCategory('South Indian')">🍛 South Indian</button>
+
+    <button class="filter-btn" onclick="filterCategory('Fast Food')">🍔 Fast Food</button>
+
+    <button class="filter-btn" onclick="filterCategory('Dessert')">🍰 Dessert</button>
+
+    <button class="filter-btn" onclick="filterCategory('Healthy')">🥗 Healthy</button>
+
+</div>
+
     <div class="container">
 
         <h2>Restaurants</h2>

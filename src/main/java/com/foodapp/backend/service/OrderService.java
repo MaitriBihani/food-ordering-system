@@ -51,10 +51,10 @@ public class OrderService {
 
         orderItemRepo.save(orderItem);
 
-        orderItems.add(orderItem);   // 🔥 IMPORTANT
+        orderItems.add(orderItem);   
     }
 
-    savedOrder.setItems(orderItems);   // 🔥 CRITICAL LINE
+    savedOrder.setItems(orderItems);  
     savedOrder.setTotalAmount(total);
 
     return orderRepo.save(savedOrder);

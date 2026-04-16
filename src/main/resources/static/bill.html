@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Bill</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,36 +16,66 @@
     <p>Date: <span id="orderDate"></span></p>
     <p>Status: <span id="orderStatus"></span></p>
 
-    <!-- <h2>Items</h2>
-    <ul id="billItems"></ul> -->
-    
-<h2>Items</h2>
+    <h2>Items</h2>
 
-<table border="1" width="100%" cellpadding="10">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody id="billItems"></tbody>
-</table>
+    <table border="1" width="100%" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="billItems"></tbody>
+    </table>
 
+    <p>Subtotal: <span id="totalAmount"></span></p>
+    <p>GST (5%): <span id="gst"></span></p>
+    <p>Delivery Fee: <span id="delivery"></span></p>
 
-<p>Subtotal: <span id="totalAmount"></span></p>
-<p>GST (5%): <span id="gst"></span></p>
-<p>Delivery Fee: <span id="delivery"></span></p>
+    <h2>Final Total: <span id="finalTotal"></span></h2>
+<!-- 
+    <button onclick="window.print()">Download / Print Bill</button>
+    <button onclick="goHome()">Back to Home</button> -->
 
-<h2>Final Total: <span id="finalTotal"></span></h2>
+    <!-- PAYMENT SECTION (NOW INSIDE) -->
+    <div class="payment-section">
+    <h2>Choose Payment Method</h2>
 
-<!-- <h2>Total: <span id="totalAmount"></span></h2> -->
-    <!-- <h2>Total: <span id="totalAmount"></span></h2> -->
+    <div class="payment-options">
 
-   <button onclick="window.print()">Download / Print Bill</button>
-    <button onclick="goHome()">Back to Home</button>
+        <div class="payment-card" onclick="selectPayment('UPI', this)">
+            📱 <span>UPI</span>
+        </div>
 
+        <div class="payment-card" onclick="selectPayment('Credit Card', this)">
+            💳 <span>Credit Card</span>
+        </div>
+
+        <div class="payment-card" onclick="selectPayment('Debit Card', this)">
+            💳 <span>Debit Card</span>
+        </div>
+
+        <div class="payment-card" onclick="selectPayment('Cash on Delivery', this)">
+            💵 <span>COD</span>
+        </div>
+
+    </div>
+</div>
+
+    <!-- CONFIRM BUTTON -->
+<button id="confirmBtn" class="confirm-btn" onclick="confirmOrder()" disabled>
+    Confirm Order
+</button>
+
+<button class="action-btn" onclick="window.print()">
+    Download / Print Bill
+</button>
+
+<button class="action-btn" onclick="goHome()">
+    Back to Home
+</button>
 </div>
 
 <script src="bill.js"></script>
