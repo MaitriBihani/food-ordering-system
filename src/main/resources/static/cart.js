@@ -17,8 +17,20 @@ const restaurantImages = {
 };
 window.onload = function () {
 
+    // 1. APPLY DARK MODE FIRST
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
+    // 2. CHECK USER
     const user = localStorage.getItem("user");
 
+    //  If NOT logged in → show background
+    if (!user) {
+        document.body.classList.add("auth-page");
+    }
+
+    //  If logged in → show app
     if (user) {
         const parsedUser = JSON.parse(user);
 
@@ -61,6 +73,7 @@ function setUserUI() {
 
 // -------- LOGIN --------
 function login() {
+    document.body.classList.remove("auth-page");
     fetch("/auth/login", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -163,6 +176,15 @@ function goToProfile(){
 
 function goToHelp(){
     window.location.href = "help.html";
+}
+// -------- DARK MODE --------
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+     if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
 }
 // -------- LOAD RESTAURANTS --------
 
@@ -339,6 +361,34 @@ function renderCart() {
 
     list.innerHTML += `<h3>Total: &#8377;${total}</h3>`;
 }
+
+// -------- CLEAR CART --------
+function clearCart() {
+
+    // Check if empty
+    if (Object.keys(cart).length === 0) {
+        alert("Cart is already empty!");
+        return;
+    }
+
+    // Confirmation
+    if (!confirm("Are you sure you want to clear the cart?")) {
+        return;
+    }
+
+    // Clear cart object
+    cart = {};
+
+    // Remove from localStorage
+    localStorage.removeItem("cart");
+
+    // Clear UI manually
+    let cartList = document.getElementById("cart");
+    cartList.innerHTML = "🛒 Cart is empty";
+
+    alert("Cart cleared successfully!");
+}
+
 
 // -------- ORDER --------
 function placeOrder() {

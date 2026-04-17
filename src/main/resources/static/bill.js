@@ -1,3 +1,8 @@
+//  APPLY DARK MODE FIRST (VERY IMPORTANT)
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+}
+
 // LOAD DATA (ORDER OR CART)
 let order = JSON.parse(localStorage.getItem("order"));
 let cart = JSON.parse(localStorage.getItem("cart"));
@@ -147,3 +152,9 @@ function confirmOrder() {
 function goHome(){
     window.location.href = "/";
 }
+
+// window.onload = function () {
+//     if (localStorage.getItem("theme") === "dark") {
+//         document.body.classList.add("dark-mode");
+//     }
+// };
